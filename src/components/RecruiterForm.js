@@ -1,17 +1,15 @@
 "use client";
 
 import { addRecruiter } from "@/actions/recruiterList";
-import { useTransition, useState } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RecruiterForm() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [senderName, setSenderName] = useState("");
 
   const handleSubmit = (formData) => {
     startTransition(async () => {
-      formData.append("senderName", senderName);
       await addRecruiter(formData);
       router.refresh();
     });
@@ -20,17 +18,8 @@ export default function RecruiterForm() {
   return (
     <form
       action={handleSubmit}
-      className="space-y-3 border p-4 rounded w-full max-w-md"
+      className="space-y-3"
     >
-      <input
-        name="senderName"
-        placeholder="Your Name"
-        required
-        className="border p-2 w-full"
-        value={senderName}
-        onChange={(e) => setSenderName(e.target.value)}
-      />
-
       <input
         name="email"
         type="email"

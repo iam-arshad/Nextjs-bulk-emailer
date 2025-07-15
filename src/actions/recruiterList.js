@@ -3,6 +3,10 @@
 let recruiters = globalThis.recruiters || [];
 let senderName = globalThis.senderName || "";
 
+export async function setSenderName(name) {
+  globalThis.senderName = name;
+}
+
 export async function addRecruiter(formData) {
   const recruiter = {
     email: formData.get("email"),
@@ -22,7 +26,7 @@ export async function getRecruiters() {
 }
 
 export async function getSenderName() {
-  return senderName;
+  return senderName || globalThis.senderName || "Arshad"; // fallback value;
 }
 
 export async function clearRecruiters() {

@@ -1,23 +1,15 @@
-import { cookies } from "next/headers";
 import RecruiterForm from "@/components/RecruiterForm";
 import RecruiterTable from "@/components/RecruiterTable";
 import SendEmailsButton from "@/components/SendEmailsButton";
+import ResumeUploader from "@/components/ResumeUploader";
+import SenderNameInput from "@/components/SenderNameInput"; // new
 
-export default async function Dashboard() {
-  const cookieStore = await cookies();
-  const isLoggedIn = cookieStore.get("refresh_token");
-
-  if (!isLoggedIn) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">You must be logged in to view this page.</p>
-      </main>
-    );
-  }
-
+export default function Dashboard() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 className="text-3xl font-bold mb-6">Recruiter Outreach Dashboard</h1>
+    <main className="min-h-screen px-4 py-6 flex flex-col items-center relative">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Recruiter Outreach Dashboard
+      </h1>
 
       <a
         href="/auth/logout"
@@ -26,9 +18,23 @@ export default async function Dashboard() {
         Logout
       </a>
 
-      <RecruiterForm />
-      <RecruiterTable />
-      <SendEmailsButton />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+        <div className="border p-4 rounded shadow-sm">
+          <h2 className="text-xl font-semibold mb-4">Your Details</h2>
+          <SenderNameInput />
+          <ResumeUploader />
+        </div>
+
+        <div className="border p-4 rounded shadow-sm">
+          <h2 className="text-xl font-semibold mb-4">Add Recruiter</h2>
+          <RecruiterForm />
+        </div>
+      </div>
+
+      <div className="w-full max-w-5xl mt-8">
+        <RecruiterTable />
+        <SendEmailsButton />
+      </div>
     </main>
   );
 }
