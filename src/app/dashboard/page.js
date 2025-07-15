@@ -1,10 +1,15 @@
-import EmailForm from "@/components/EmailForm";
+import RecruiterForm from "@/components/RecruiterForm";
+import RecruiterTable from "@/components/RecruiterTable";
+import SendEmailsButton from "@/components/SendEmailsButton";
 
 export default function Dashboard() {
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold mb-4">Send an Email</h2>
-      <EmailForm />
-    </div>
+    <main className="min-h-screen flex flex-col items-center justify-center p-6">
+      <h1 className="text-3xl font-bold mb-6">Recruiter Outreach Dashboard</h1>
+
+      <RecruiterForm />
+      <RecruiterTable />
+      <SendEmailsButton />
+    </main>
   );
 }
