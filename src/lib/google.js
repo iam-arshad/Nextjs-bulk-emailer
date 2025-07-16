@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 
+// Returns a new OAuth2 client using environment variables for credentials
 export function getOAuthClient() {
   return new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
@@ -8,6 +9,7 @@ export function getOAuthClient() {
   );
 }
 
+// Generates the Google OAuth2 authentication URL for Gmail send scope
 export function getAuthUrl() {
   const oauth2Client = getOAuthClient();
   return oauth2Client.generateAuthUrl({

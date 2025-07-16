@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS Bulk Emailer
+
+A bulk email sender app built with [Next.js](https://nextjs.org) that helps you manage recruiter outreach efficiently. Easily upload your resume, add recruiter contacts, and send personalized emails in bulk using your Gmail account via Google OAuth.
+
+## Features
+
+- Google OAuth login for secure authentication
+- Add and manage recruiter contacts (email, name, organization)
+- Upload your resume (PDF, DOC, DOCX)
+- Store and edit your sender name
+- Send personalized emails with your resume attached to all recruiters in one click
+- Responsive dashboard UI
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/nextjs-bulk-emailer.git
+   cd nextjs-bulk-emailer
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Set up environment variables:**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+   Create a `.env.local` file in the root directory and add your Google OAuth credentials:
+   ```
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   REDIRECT_URI=http://localhost:3000/auth/callback
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-## Learn More
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Login:** Click "Login with Google" to authenticate.
+- **Dashboard:** 
+  - Enter your name and upload your resume.
+  - Add recruiter contacts.
+  - View all recruiters in a table.
+  - Click "Send Emails" to send your resume to all recruiters.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+- `src/app/` - Next.js app directory (pages, API routes, layout)
+- `src/components/` - React components (forms, tables, uploader, etc.)
+- `src/actions/` - Server actions for recruiters, resume, and email sending
+- `src/lib/` - Utility libraries (Google OAuth, resume store)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy your Next.js app is to use [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+## 🧑‍💻 Author
+
+Made with ❤️ by Arshad
+
+## 📄 License
+
+MIT
+
+
+**Note:** This project stores recruiter and resume data in memory (not persistent). For production, consider integrating a database and secure file storage.

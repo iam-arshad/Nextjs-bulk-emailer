@@ -1,27 +1,35 @@
-"use server";
+"use server"; // Marks this file as a server action for Next.js
 
-import { getOAuthClient } from "@/lib/google";
-import { cookies } from "next/headers";
-import { google } from "googleapis";
-import { getRecruiters, getSenderName, clearRecruiters } from "./recruiterList";
-import { getResume } from "@/lib/resumeStore";
+import { getOAuthClient } from "@/lib/google"; // Imports function to get Google OAuth client
+import { cookies } from "next/headers"; // Imports cookies API for authentication
+import { google } from "googleapis"; // Imports Google APIs client library
+import { getRecruiters, getSenderName, clearRecruiters } from "./recruiterList"; // Imports recruiter-related utilities
+import { getResume } from "@/lib/resumeStore"; // Imports resume retrieval utility
 
+// Main function to send bulk emails with resume attachment to recruiters
 export async function sendBulkEmails() {
+  // Get cookies and retrieve refresh token for authentication
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refresh_token")?.value;
   if (!refreshToken) throw new Error("Not authenticated");
 
+  // Initialize OAuth2 client and set credentials
   const oauth2Client = getOAuthClient();
   oauth2Client.setCredentials({ refresh_token: refreshToken });
 
+  // Create Gmail API client
   const gmail = google.gmail({ version: "v1", auth: oauth2Client });
 
+  // Fetch recruiters list and sender name
   const recruiters = await getRecruiters();
   const senderName = await getSenderName();
+  // Retrieve resume details (buffer, MIME type, filename)
   const { resumeBuffer, resumeMimeType, resumeFilename } = getResume();
 
+  // Throw error if resume is not uploaded
   if (!resumeBuffer) throw new Error("Resume not uploaded");
 
+  // Email template generator function
   const emailTemplate = (name, org) => `
 Dear ${name},
 
@@ -42,8 +50,11 @@ Best regards,
 ${senderName}
 `;
 
+  // Map over recruiters and send email to each
   const sendPromises = recruiters.map(async ({ email, name, organization }) => {
+    // Define MIME boundary for multipart email
     const boundary = "boundary123";
+    // Construct email message parts including text and resume attachment
     const messageParts = [
       `To: ${email}`,
       "Subject: Application for React Developer Position",
@@ -64,14 +75,17 @@ ${senderName}
       `--${boundary}--`,
     ];
 
+    // Join message parts into a single raw message string
     const rawMessage = messageParts.join("\r\n");
 
+    // Encode the raw message to base64url format required by Gmail API
     const encodedMessage = Buffer.from(rawMessage)
       .toString("base64")
       .replace(/\+/g, "-")
       .replace(/\//g, "_")
       .replace(/=+$/, "");
 
+    // Send the email using Gmail API
     await gmail.users.messages.send({
       userId: "me",
       requestBody: {
@@ -80,6 +94,8 @@ ${senderName}
     });
   });
 
+  // Wait for all emails to be sent
   await Promise.all(sendPromises);
+  // Clear recruiters list after sending emails
   await clearRecruiters();
 }
