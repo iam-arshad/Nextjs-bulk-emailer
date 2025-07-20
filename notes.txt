@@ -1,0 +1,62 @@
+File structue:
+
+📦 src
+├── 📁 actions
+│   └── sendBulkEmails.js
+│
+├── 📁 app
+│   ├── 📁 auth
+│   │   ├── 📁 callback
+│   │   │   └── page.js
+│   │   ├── 📁 login
+│   │   │   └── page.js
+│   │   └── 📁 logout
+│   │       └── page.js
+│   │
+│   ├── 📁 dashboard
+│   │   └── page.js
+│   │
+│   ├── globals.css
+│   ├── layout.js
+│   └── page.js
+│
+├── 📁 components
+│   ├── RecruiterForm.js
+│   ├── RecruiterTable.js
+│   ├── SenderDetails.js
+│   └── SendEmailsButton.js
+│
+├── 📁 lib
+│   ├── google.js
+|
+├── middleware.js
+
+
+
+
+
+
+Summary diagram:
+User lands on → / (Home)
+   ↓
+Not logged in → "Login with Google" button
+   ↓
+→ /auth/login (OAuth URL generated via lib/google.js)
+   ↓
+→ Google Login → Redirect to /auth/callback
+   ↓
+/auth/callback extracts token → sets cookie → redirects to /dashboard
+   ↓
+/dashboard renders:
+   ├── SenderDetails
+   ├── RecruiterForm
+   ├── RecruiterTable
+   └── SendEmailsButton
+        ↓
+    Triggers → src/actions/sendBulkEmails.js
+        ↓
+    Emails sent via Gmail API
+
+
+Note: 
+Earlier, in memory variables were used to add recruiters one by one to the list and to store the uploaded resume in backend using server action(was working local env), but when the app is deployed in vercel, it was not working. So, made many components as client components for client side interactivity and state management. And made the app in such a way to send all details(resume,recruitersList) at once.

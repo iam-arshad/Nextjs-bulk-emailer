@@ -2,6 +2,9 @@
 
 A bulk email sender app built with [Next.js](https://nextjs.org) that helps you manage recruiter outreach efficiently. Easily upload your resume, add recruiter contacts, and send personalized emails in bulk using your Gmail account via Google OAuth.
 
+> **Live Demo:**  
+> The app is live at [https://nextjs-bulk-emailer.vercel.app/](https://nextjs-bulk-emailer.vercel.app/)
+
 ## Features
 
 - Google OAuth login for secure authentication
@@ -61,13 +64,6 @@ A bulk email sender app built with [Next.js](https://nextjs.org) that helps you 
 - `src/actions/` - Server actions for recruiters, resume, and email sending
 - `src/lib/` - Utility libraries (Google OAuth, resume store)
 
-## Deployment
-
-The easiest way to deploy your Next.js app is to use [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
----
 
 ## 🧑‍💻 Author
 
@@ -78,4 +74,3 @@ Made with ❤️ by Arshad
 MIT
 
 
-**Note:** This project stores recruiter and resume data in memory (not persistent). For production, consider integrating a database and secure file storage.

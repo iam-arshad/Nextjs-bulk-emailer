@@ -1,60 +1,78 @@
-"use client";
+'use client';
+import React, { useState } from 'react';
 
-// Import necessary hooks and actions
-import { addRecruiter } from "@/actions/recruiterList";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+export default function RecruiterForm({ onAdd }) {
+  const [recruiter, setRecruiter] = useState({
+    name: '',
+    email: '',
+    org: '',
+  });
 
-// RecruiterForm component for adding a recruiter
-export default function RecruiterForm() {
-  const router = useRouter(); // Router for navigation and refreshing
-  const [isPending, startTransition] = useTransition(); // Transition state for async actions
-
-  // Handles form submission and adds a recruiter
-  const handleSubmit = (formData) => {
-    startTransition(async () => {
-      await addRecruiter(formData); // Add recruiter using server action
-      router.refresh(); // Refresh the page to update recruiter list
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRecruiter((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Render the recruiter form
-  return (
-    <form
-      action={handleSubmit}
-      className="space-y-3"
-    >
-      {/* Input for recruiter email */}
-      <input
-        name="email"
-        type="email"
-        required
-        placeholder="Recruiter Email"
-        className="border p-2 w-full"
-      />
-      {/* Input for recruiter name */}
-      <input
-        name="name"
-        required
-        placeholder="Recruiter Name"
-        className="border p-2 w-full"
-      />
-      {/* Input for recruiter organization */}
-      <input
-        name="organization"
-        required
-        placeholder="Recruiter Organization"
-        className="border p-2 w-full"
-      />
+  const handleAdd = () => {
+    if (!recruiter.name || !recruiter.email || !recruiter.org) {
+      alert('Please enter name, email, and organization.');
+      return;
+    }
 
-      {/* Submit button, disabled while pending */}
+    onAdd(recruiter);
+    setRecruiter({ name: '', email: '', org: '' }); // reset after adding
+  };
+
+  return (
+    <div className="space-y-4 mt-6">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Recruiter Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Jane Doe"
+          value={recruiter.name}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Recruiter Email
+        </label>
+        <input
+          type="email"
+          name="email"
+          placeholder="jane@example.com"
+          value={recruiter.email}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Organization
+        </label>
+        <input
+          type="text"
+          name="org"
+          placeholder="Company Name"
+          value={recruiter.org}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black"
+        />
+      </div>
+
       <button
-        type="submit"
-        disabled={isPending}
-        className="bg-blue-600 text-white px-4 py-2 w-full"
+        onClick={handleAdd}
+        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
       >
-        {isPending ? "Adding..." : "Add Recruiter"}
+        Add Recruiter
       </button>
-    </form>
+    </div>
   );
 }
