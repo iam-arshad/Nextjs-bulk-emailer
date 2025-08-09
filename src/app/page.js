@@ -10,7 +10,7 @@ export default async function Home() {
   // Render the main content
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 className="text-3xl font-bold mb-6">Welcome to Gmail Outreach</h1>
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-center">Welcome to Gmail Outreach</h1>
 
       {/* Show login button if not logged in, otherwise show dashboard link */}
       {!isLoggedIn ? (
@@ -28,6 +28,11 @@ export default async function Home() {
           Go to Dashboard
         </a>
       )}
+
+       {/* Footer with author credit */}
+      <footer className="text-gray-500 text-sm absolute bottom-4 right-4">
+        Made with ❤️ by Arshad
+      </footer>
     </main>
   );
 }
