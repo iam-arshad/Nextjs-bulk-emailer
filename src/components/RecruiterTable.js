@@ -30,6 +30,7 @@ export default function RecruiterTable({ recruiters, setRecruiters }) {
               <td className="px-4 py-2 border-t border-gray-200">{r.email}</td>
               <td className="px-4 py-2 border-t border-gray-200">{r.name}</td>
               <td className="px-4 py-2 border-t border-gray-200">{r.org}</td>
+              <td className="px-4 py-2 border-t border-gray-200">{r.platform}</td>
               <td className="px-4 py-2 border-t border-gray-200 text-center">
                 <button
                   onClick={() => handleRemove(i)}

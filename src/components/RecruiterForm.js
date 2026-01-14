@@ -6,6 +6,7 @@ export default function RecruiterForm({ onAdd }) {
     name: '',
     email: '',
     org: '',
+    platform:'',
   });
 
   const handleChange = (e) => {
@@ -14,13 +15,13 @@ export default function RecruiterForm({ onAdd }) {
   };
 
   const handleAdd = () => {
-    if (!recruiter.name || !recruiter.email || !recruiter.org) {
-      alert('Please enter name, email, and organization.');
+    if (!recruiter.name || !recruiter.email || !recruiter.org || !recruiter.platform) {
+      alert('Please enter name, email, platform and organization.');
       return;
     }
 
     onAdd(recruiter);
-    setRecruiter({ name: '', email: '', org: '' }); // reset after adding
+    setRecruiter({ name: '', email: '', org: '', platform:'' }); // reset after adding
   };
 
   return (
@@ -48,6 +49,20 @@ export default function RecruiterForm({ onAdd }) {
           name="email"
           placeholder="jane@example.com"
           value={recruiter.email}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Platform
+        </label>
+        <input
+          type="text"
+          name="platform"
+          placeholder="Naukri,Linkedin,..."
+          value={recruiter.platform}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black"
         />

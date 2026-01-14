@@ -13,6 +13,13 @@ export default function SenderDetails({ sender, onChange }) {
     const file = e.target.files[0];
     if (!file) return;
 
+    //if dragged file is not pdf, alert and return
+    if (file.type !== "application/pdf") {
+      alert("Only PDF files are allowed");
+      e.target.value = null; // Clear the input
+      return;
+    }
+
     // Read file as ArrayBuffer
     const arrayBuffer = await file.arrayBuffer();
 
@@ -56,7 +63,7 @@ export default function SenderDetails({ sender, onChange }) {
         </label>
         <input
           type="file"
-          accept=".pdf"
+          accept="application/pdf"
           onChange={handleResumeChange}
           className="w-full text-sm text-gray-700
           file:mr-4 file:py-2 file:px-4

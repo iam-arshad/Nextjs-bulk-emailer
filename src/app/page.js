@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 // Home page component
 export default async function Home() {
@@ -14,23 +15,23 @@ export default async function Home() {
 
       {/* Show login button if not logged in, otherwise show dashboard link */}
       {!isLoggedIn ? (
-        <a
+        <Link
           href="/auth/login"
-          className="bg-blue-600 text-white px-6 py-3 rounded"
+          className="bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-white px-6 py-3 rounded transition-colors"
         >
           Login with Google
-        </a>
+        </Link>
       ) : (
-        <a
+        <Link
           href="/dashboard"
-          className="bg-green-600 text-white px-6 py-3 rounded"
+          className="bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-white px-6 py-3 rounded transition-colors"
         >
           Go to Dashboard
-        </a>
+        </Link>
       )}
 
        {/* Footer with author credit */}
-      <footer className="text-gray-500 text-sm absolute bottom-4 right-4">
+      <footer className="text-gray-700 dark:text-gray-300 text-sm absolute bottom-4 right-4">
         Made with ❤️ by Arshad
       </footer>
     </main>

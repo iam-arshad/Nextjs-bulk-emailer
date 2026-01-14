@@ -22,30 +22,38 @@ export async function sendBulkEmails({
 
   if (!resumeBase64) throw new Error("Resume not uploaded");
 
-  const emailTemplate = (recruiterName, org, sender) => `
-  <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; text-align: justify; line-height: 1.6;">
-    <p>Dear ${recruiterName},</p>
+  const emailTemplate = (recruiterName, org, sender, platform) => `
+<div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; text-align: justify; line-height: 1.6;">
+  <p>Dear ${recruiterName},</p>
 
-    <p>I hope this message finds you well. I came across an opportunity at <strong>${org}</strong> for a <strong>React Developer</strong> role, and I’m writing to express my interest in being considered for this position. With 4 years of experience in frontend development, I have worked extensively with modern JavaScript frameworks and development practices.</p>
+  <p>
+    I hope you are doing well. I came across an open position at 
+    <strong>${org}</strong> through <strong>${platform}</strong> and wanted to reach out to express my interest.
+  </p>
 
-    <p><strong>Key Skills & Experience:</strong></p>
-    <ul>
-      <li>✔ ReactJS – Built performant and responsive web applications</li>
-      <li>✔ Redux & TypeScript – Managed scalable, maintainable application states</li>
-      <li>✔ RESTful APIs – Integrated and consumed backend services efficiently</li>
-      <li>✔ Testing – Proficient in Jest and Enzyme for robust test coverage</li>
-      <li>✔ DevOps – Hands-on experience with GitLab CI/CD and deployment workflows</li>
-    </ul>
+  <p>
+    I am currently exploring new opportunities and believe my background and interests align well
+    with the kind of work your team is doing. I enjoy working on building clean, user-friendly
+    interfaces and collaborating with teams to deliver reliable solutions.
+  </p>
 
-    <p>I’m particularly drawn to this opportunity due to my passion for building intuitive UIs and my collaborative experience across globally distributed teams.</p>
+  <p>
+    I have attached my resume for your reference. I would appreciate the opportunity to connect and
+    learn more about the role and how I could potentially contribute to your team.
+  </p>
 
-    <p>Please find my resume attached for your review. I would appreciate the opportunity to connect and discuss how I could contribute to your team’s goals.</p>
+  <p>
+    Thank you for your time and consideration.
+  </p>
 
-    <p>Best regards,<br>${sender}</p>
-  </div>
+  <p>
+    Best regards,<br />
+    ${sender}
+  </p>
+</div>
 `;
 
-  const sendPromises = recruiters.map(async ({ email, name: recruiterName, org: organization }) => {
+  const sendPromises = recruiters.map(async ({ email, name: recruiterName, org: organization, platform }) => {
     const boundary = "boundary123";
 
     const messageParts = [
@@ -57,7 +65,7 @@ export async function sendBulkEmails({
       `--${boundary}`,
       "Content-Type: text/html; charset=UTF-8",
       "",
-      emailTemplate(recruiterName, organization, senderName),
+      emailTemplate(recruiterName, organization, senderName, platform),
       "",
       `--${boundary}`,
       `Content-Type: ${resumeMimeType}`,

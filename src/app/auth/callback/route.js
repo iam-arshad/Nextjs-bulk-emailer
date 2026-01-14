@@ -19,6 +19,9 @@ export async function GET(request) {
     cookieStore.set("refresh_token", tokens.refresh_token, {
       httpOnly: true,
       secure: true,
+      path: "/",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 3, // 3 hours
     });
   }
 
